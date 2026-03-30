@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Chair | Premium Barbershop & Grooming</title>
+    <meta name="description" content="Experience refined grooming at The Chair. Premium haircuts, beard trims, and hot towel finishes in a luxury editorial setting. Est. 2015.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS v4 CDN -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4.0.0" crossorigin></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@0.473.0" crossorigin></script>
+
+    <!-- Alpine.js -->
+    <script defer src="https://unpkg.com/alpinejs@3.14.1/dist/cdn.min.js" crossorigin></script>
+
+    <style type="text/tailwindcss">
+      @theme {
+        --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+        --font-serif: "Playfair Display", serif;
+        
+        --color-brand-black: #0e0d0b;
+        --color-brand-gold: #c8a96e;
+        --color-brand-cream: #f5f0e8;
+        --color-brand-grey: #1a1917;
+      }
+
+      @layer base {
+        body {
+          @apply bg-brand-black text-brand-cream selection:bg-brand-gold selection:text-brand-black;
+        }
+      }
+
+      .vertical-text {
+        writing-mode: vertical-rl;
+      }
+
+      .glass-card {
+        @apply bg-white/5 backdrop-blur-xl border border-white/10;
+      }
+
+      [x-cloak] { display: none !important; }
+
+      @keyframes loading {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+      }
+      @keyframes scroll-down {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100%); }
+      }
+      @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+    </style>
+  </head>
+  <body x-data="appData()" 
+  @scroll.window="scrolled = (window.pageYOffset > 50)"
+  x-init="setTimeout(() => loading = false, 2000); if (typeof lucide !== 'undefined') lucide.createIcons();">
+
+    <script>
+      function appData() {
+        return {
+          loading: true, 
+          scrolled: false, 
+          mobileMenu: false,
+          bookingStep: 1,
+          selectedTime: '',
+          // Services Data - Add your service details and images here
+          services: [
+            { name: 'Men\'s Haircut', price: '£45', time: '45 MIN', desc: 'Precision cut, wash, and style.', img: 'https://picsum.photos/seed/haircut/600/800?grayscale' },
+            { name: 'The Works', price: '£85', time: '90 MIN', desc: 'Haircut, beard trim, and facial.', img: 'https://picsum.photos/seed/grooming/600/800?grayscale' },
+            { name: 'Beard Trim', price: '£30', time: '30 MIN', desc: 'Sculpting and hot towel finish.', img: 'https://picsum.photos/seed/beard/600/800?grayscale' },
+            { name: 'Hot Shave', price: '£40', time: '45 MIN', desc: 'Traditional straight razor shave.', img: 'https://picsum.photos/seed/shave/600/800?grayscale' }
+          ],
+          // Gallery Data - Add your image URLs here
+          galleryImages: [
+            { url: 'https://picsum.photos/seed/gallery-1/800/800?grayscale', alt: 'Modern Fade' },
+            { url: 'https://picsum.photos/seed/gallery-2/800/800?grayscale', alt: 'Classic Taper' },
+            { url: 'https://picsum.photos/seed/gallery-3/800/800?grayscale', alt: 'Beard Sculpting' },
+            { url: 'https://picsum.photos/seed/gallery-4/800/800?grayscale', alt: 'Hot Towel Shave' },
+            { url: 'https://picsum.photos/seed/gallery-5/800/800?grayscale', alt: 'Textured Crop' },
+            { url: 'https://picsum.photos/seed/gallery-6/800/800?grayscale', alt: 'Buzz Cut' },
+            { url: 'https://picsum.photos/seed/gallery-7/800/800?grayscale', alt: 'Skin Fade' },
+            { url: 'https://picsum.photos/seed/gallery-8/800/800?grayscale', alt: 'Executive Contour' }
+          ],
+          // Team Data - Add your profile here
+          team: [
+            { name: 'Your Name', role: 'Owner & Master Barber', bio: 'Add your personal bio here. Share your passion and experience.', img: 'https://picsum.photos/seed/owner/600/800?grayscale' },
+            { name: 'Alex Rivera', role: 'Founder', bio: '15 years of experience in high-end grooming and editorial styling.', img: 'https://picsum.photos/seed/barber-1/600/800?grayscale' },
+            { name: 'Jordan Smith', role: 'Senior Stylist', bio: 'Specializing in modern fades and creative texture work.', img: 'https://picsum.photos/seed/barber-2/600/800?grayscale' }
+          ]
+        };
+      }
+    </script>
+
+    <!-- Preloader -->
+    <div 
+      x-show="loading" 
+      x-transition:leave="transition ease-in duration-1000 transform"
+      x-transition:leave-start="translate-y-0"
+      x-transition:leave-end="-translate-y-full"
+      class="fixed inset-0 z-[100] bg-brand-black flex items-center justify-center"
+    >
+      <div class="text-center">
+        <h2 class="text-brand-gold font-serif text-4xl tracking-tighter font-black mb-4 animate-pulse">THE CHAIR</h2>
+        <div class="w-48 h-[1px] bg-white/10 relative overflow-hidden">
+          <div class="absolute inset-0 bg-brand-gold animate-[loading_1.5s_ease-in-out_infinite]"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav 
+      class="fixed top-0 left-0 w-full z-50 transition-all duration-500"
+      :class="scrolled ? 'bg-brand-black/80 backdrop-blur-xl py-4 border-b border-white/5' : 'bg-transparent py-8'"
+    >
+      <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+        <a href="#" class="text-2xl font-serif tracking-tighter font-black text-brand-gold">THE CHAIR</a>
+        
+        <div class="hidden md:flex items-center space-x-12">
+          <template x-for="item in ['Services', 'Gallery', 'Booking', 'Team']">
+            <a 
+              :href="'#' + item.toLowerCase()" 
+              class="text-[10px] uppercase tracking-[0.3em] font-bold hover:text-brand-gold transition-colors"
+              x-text="item"
+            ></a>
+          </template>
+          <a 
+            href="#booking" 
+            class="bg-brand-gold text-brand-black px-8 py-3 text-[10px] uppercase tracking-widest font-black hover:bg-white transition-colors"
+          >Book Now</a>
+        </div>
+
+        <button 
+          class="md:hidden text-brand-gold" 
+          @click="mobileMenu = !mobileMenu"
+        >
+          <i x-show="!mobileMenu" data-lucide="menu"></i>
+          <i x-show="mobileMenu" data-lucide="x"></i>
+        </button>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div 
+        x-show="mobileMenu" 
+        x-cloak
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 -translate-y-4"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        class="md:hidden absolute top-full left-0 w-full bg-brand-black border-b border-white/5 p-8 flex flex-col space-y-6"
+      >
+        <template x-for="item in ['Services', 'Gallery', 'Booking', 'Team']">
+          <a 
+            :href="'#' + item.toLowerCase()" 
+            class="text-xs uppercase tracking-widest font-bold"
+            @click="mobileMenu = false"
+            x-text="item"
+          ></a>
+        </template>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+      <div class="absolute inset-0 z-0">
+        <img 
+          src="https://picsum.photos/seed/barber/1920/1080?grayscale" 
+          class="w-full h-full object-cover opacity-40 scale-110"
+          referrerpolicy="no-referrer"
+        />
+        <div class="absolute inset-0 bg-gradient-to-r from-brand-black via-brand-black/80 to-transparent"></div>
+      </div>
+
+      <div class="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-8">
+          <div class="flex items-center space-x-4 mb-8">
+            <span class="w-12 h-[1px] bg-brand-gold"></span>
+            <span class="text-brand-gold text-[10px] uppercase tracking-[0.5em] font-black">Est. 2015 · London</span>
+          </div>
+          <h1 class="text-7xl md:text-9xl font-serif leading-[0.85] tracking-tighter mb-12">
+            The Art of <br />
+            <span class="italic text-brand-gold">Modern</span> <br />
+            Grooming
+          </h1>
+          <p class="text-xl md:text-2xl text-brand-cream/60 max-w-xl mb-16 font-light leading-relaxed">
+            Where tradition meets editorial precision. Experience the finest haircuts and grooming services in the heart of the city.
+          </p>
+          
+          <div class="flex flex-col sm:flex-row items-start gap-8">
+            <a 
+              href="#booking" 
+              class="group relative bg-brand-gold text-brand-black px-12 py-5 text-[10px] uppercase tracking-widest font-black overflow-hidden transition-colors"
+            >
+              <span class="relative z-10">Book Appointment</span>
+              <div class="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+            </a>
+            <a 
+              href="#services" 
+              class="text-brand-cream uppercase tracking-widest text-[10px] font-bold py-5 flex items-center group"
+            >
+              Explore Services 
+              <span class="ml-4 w-12 h-[1px] bg-brand-gold group-hover:w-20 transition-all duration-500"></span>
+            </a>
+          </div>
+        </div>
+
+        <div class="hidden lg:block lg:col-span-4">
+          <div class="vertical-text text-brand-gold text-[10px] uppercase tracking-[1.5em] font-black origin-bottom-right translate-x-12 opacity-20">
+            THE CHAIR BARBERSHOP · SINCE 2015
+          </div>
+        </div>
+      </div>
+
+      <div class="absolute bottom-12 left-6 md:left-24 flex items-center space-x-6">
+        <div class="w-[1px] h-16 bg-brand-gold/20 relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-full h-full bg-brand-gold animate-[scroll-down_2s_infinite]"></div>
+        </div>
+        <span class="text-[10px] uppercase tracking-[0.3em] text-brand-gold/40 font-bold">Scroll to explore</span>
+      </div>
+    </section>
+
+    <!-- Trust Bar -->
+    <div class="bg-brand-black border-y border-white/5 py-12 overflow-hidden">
+      <div class="flex whitespace-nowrap">
+        <div class="flex space-x-24 items-center pr-24 animate-[marquee_30s_linear_infinite]">
+          <template x-for="brand in ['GQ MAGAZINE', 'VOGUE MAN', 'ESQUIRE', 'FORBES LUXURY', 'MEN\'S HEALTH', 'THE TIMES', 'VANITY FAIR', 'THE NEW YORKER']">
+            <span class="text-white/20 text-[10px] font-black tracking-[0.4em] uppercase hover:text-brand-gold transition-colors cursor-default" x-text="brand"></span>
+          </template>
+          <!-- Duplicate for seamless loop -->
+          <template x-for="brand in ['GQ MAGAZINE', 'VOGUE MAN', 'ESQUIRE', 'FORBES LUXURY', 'MEN\'S HEALTH', 'THE TIMES', 'VANITY FAIR', 'THE NEW YORKER']">
+            <span class="text-white/20 text-[10px] font-black tracking-[0.4em] uppercase hover:text-brand-gold transition-colors cursor-default" x-text="brand"></span>
+          </template>
+        </div>
+      </div>
+    </div>
+
+    <!-- Services -->
+    <section id="services" class="py-32 bg-brand-grey">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
+          <div class="max-w-2xl">
+            <h2 class="text-6xl md:text-8xl font-serif mb-8 leading-none">Our <span class="italic text-brand-gold">Craft</span></h2>
+            <p class="text-brand-cream/50 text-lg font-light">We don't just cut hair. We sculpt identities. Every service is tailored to your unique features and lifestyle.</p>
+          </div>
+          <div class="text-right">
+            <span class="text-brand-gold font-serif text-6xl italic">01</span>
+            <p class="text-[10px] uppercase tracking-[0.5em] font-black opacity-30">The Menu</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1">
+          <template x-for="service in services">
+            <div 
+              class="group relative bg-brand-black overflow-hidden aspect-[3/4] cursor-pointer"
+            >
+              <img :src="service.img" :alt="service.name" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 group-hover:opacity-40 transition-all duration-700" referrerpolicy="no-referrer" />
+              <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-transparent to-transparent opacity-80"></div>
+              
+              <div class="absolute inset-0 p-12 flex flex-col justify-end">
+                <div class="flex justify-between items-start mb-6">
+                  <span class="text-brand-gold text-[10px] uppercase tracking-widest" x-text="service.time"></span>
+                  <span class="text-2xl font-serif" x-text="service.price"></span>
+                </div>
+                <h3 class="text-2xl uppercase tracking-widest font-black mb-4" x-text="service.name"></h3>
+                <p class="text-brand-cream/40 text-sm font-light leading-relaxed" x-text="service.desc"></p>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-32 bg-brand-black overflow-hidden">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="mb-24">
+          <h2 class="text-6xl md:text-8xl font-serif mb-8 leading-none">The <span class="italic text-brand-gold">Gallery</span></h2>
+          <p class="text-brand-cream/50 text-lg font-light max-w-xl">A curated collection of our recent work. Each image represents a commitment to excellence and a passion for the craft.</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <template x-for="img in galleryImages">
+            <div class="aspect-square overflow-hidden group relative cursor-pointer">
+              <img :src="img.url" :alt="img.alt" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" referrerpolicy="no-referrer" />
+              <div class="absolute inset-0 bg-brand-gold/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <i data-lucide="instagram" class="text-white w-8 h-8"></i>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="py-32 bg-brand-grey">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
+          <div class="max-w-2xl">
+            <h2 class="text-6xl md:text-8xl font-serif mb-8 leading-none">The <span class="italic text-brand-gold">Artists</span></h2>
+            <p class="text-brand-cream/50 text-lg font-light">Meet the hands behind the craft. Our team consists of industry veterans dedicated to the art of grooming.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+          <template x-for="member in team">
+            <div class="group">
+              <div class="aspect-[3/4] overflow-hidden mb-8 relative">
+                <img :src="member.img" :alt="member.name" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" referrerpolicy="no-referrer" />
+                <div class="absolute inset-0 bg-gradient-to-t from-brand-black to-transparent opacity-60"></div>
+              </div>
+              <h3 class="text-2xl uppercase tracking-widest font-black mb-2" x-text="member.name"></h3>
+              <p class="text-brand-gold text-[10px] uppercase tracking-[0.3em] font-black mb-4" x-text="member.role"></p>
+              <p class="text-brand-cream/40 text-sm font-light leading-relaxed" x-text="member.bio"></p>
+            </div>
+          </template>
+
+          <!-- Placeholder for more -->
+          <div class="border border-dashed border-brand-gold/20 flex flex-col items-center justify-center p-12 text-center group cursor-pointer hover:bg-brand-gold/5 transition-colors">
+            <div class="w-24 h-24 rounded-full border border-brand-gold/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <i data-lucide="plus" class="text-brand-gold w-8 h-8"></i>
+            </div>
+            <h3 class="text-xl uppercase tracking-widest font-black mb-2">Join the Team</h3>
+            <p class="text-brand-cream/40 text-xs font-light">We are always looking for talent</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking" class="bg-brand-cream text-brand-black py-32">
+      <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-32">
+        <div>
+          <h2 class="text-7xl mb-12 leading-none">Reserve<br />Your <span class="italic text-brand-gold">Chair</span></h2>
+          <p class="text-xl text-brand-black/70 mb-16 leading-relaxed font-light">
+            Our slots fill up fast. Secure your appointment in seconds and skip the wait. We look forward to seeing you.
+          </p>
+          
+          <div class="space-y-12">
+            <template x-for="item in [
+              { num: '01', title: 'Instant Confirmation', desc: 'Receive your details immediately.' },
+              { num: '02', title: 'Flexible Rescheduling', desc: '24-hour free cancellation.' },
+              { num: '03', title: 'Secure Payments', desc: 'Handled safely via Stripe.' }
+            ]">
+              <div class="flex items-center space-x-8 group">
+                <span class="text-brand-gold font-serif text-4xl group-hover:scale-110 transition-transform duration-300" x-text="item.num"></span>
+                <div>
+                  <h4 class="font-bold uppercase tracking-[0.2em] text-xs" x-text="item.title"></h4>
+                  <p class="text-sm text-brand-black/40 font-light" x-text="item.desc"></p>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+
+        <div class="bg-white p-12 shadow-2xl relative overflow-hidden">
+          <!-- Steps -->
+          <div class="flex justify-between mb-12">
+            <template x-for="s in [1, 2, 3]">
+              <div class="flex items-center">
+                <div 
+                  class="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-black transition-all duration-500"
+                  :class="bookingStep >= s ? 'bg-brand-black text-brand-gold' : 'bg-black/5 text-black/20'"
+                  x-text="s"
+                ></div>
+                <div x-show="s < 3" class="w-12 h-[1px] mx-2" :class="bookingStep > s ? 'bg-brand-black' : 'bg-black/5'"></div>
+              </div>
+            </template>
+          </div>
+
+          <form @submit.prevent="alert('Booking Confirmed!')">
+            <!-- Step 1 -->
+            <div x-show="bookingStep === 1" class="space-y-12">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="space-y-2">
+                  <label class="block text-[10px] uppercase font-black tracking-[0.3em] text-brand-black/40">Service</label>
+                  <select class="w-full bg-transparent border-b border-black/10 py-4 focus:border-brand-gold outline-none transition-colors appearance-none cursor-pointer">
+                    <option>Men's Haircut</option>
+                    <option>The Works</option>
+                    <option>Beard Trim</option>
+                    <option>Hot Towel Shave</option>
+                  </select>
+                </div>
+                <div class="space-y-2">
+                  <label class="block text-[10px] uppercase font-black tracking-[0.3em] text-brand-black/40">Date</label>
+                  <input type="date" class="w-full bg-transparent border-b border-black/10 py-4 focus:border-brand-gold outline-none transition-colors cursor-pointer" />
+                </div>
+              </div>
+              <button 
+                type="button"
+                @click="bookingStep = 2"
+                class="w-full bg-brand-black text-brand-gold py-6 text-[10px] uppercase tracking-widest font-black hover:bg-brand-gold hover:text-brand-black transition-all"
+              >Next Step →</button>
+            </div>
+
+            <!-- Step 2 -->
+            <div x-show="bookingStep === 2" x-cloak class="space-y-12">
+              <div class="space-y-6">
+                <label class="block text-[10px] uppercase font-black tracking-[0.3em] text-brand-black/40">Select Time</label>
+                <div class="grid grid-cols-4 gap-3">
+                  <template x-for="time in ['9:00', '9:45', '10:30', '11:15', '12:00', '13:30', '14:15', '15:00']">
+                    <button 
+                      type="button" 
+                      @click="selectedTime = time"
+                      class="py-4 text-[10px] font-black uppercase tracking-widest border transition-all"
+                      :class="selectedTime === time ? 'bg-brand-black text-brand-gold border-brand-black' : 'border-black/5 hover:border-black/20'"
+                      x-text="time"
+                    ></button>
+                  </template>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <button type="button" @click="bookingStep = 1" class="flex-1 border border-black/10 py-6 text-[10px] uppercase tracking-widest font-black hover:bg-black/5 transition-all">Back</button>
+                <button type="button" @click="bookingStep = 3" class="flex-[2] bg-brand-black text-brand-gold py-6 text-[10px] uppercase tracking-widest font-black hover:bg-gold hover:text-brand-black transition-all">Next Step →</button>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div x-show="bookingStep === 3" x-cloak class="space-y-12">
+              <div class="space-y-8">
+                <input type="text" placeholder="Full Name" class="w-full bg-transparent border-b border-black/10 py-4 focus:border-brand-gold outline-none transition-colors" />
+                <input type="email" placeholder="Email Address" class="w-full bg-transparent border-b border-black/10 py-4 focus:border-brand-gold outline-none transition-colors" />
+                <input type="tel" placeholder="Phone Number" class="w-full bg-transparent border-b border-black/10 py-4 focus:border-brand-gold outline-none transition-colors" />
+              </div>
+              <div class="flex gap-4">
+                <button type="button" @click="bookingStep = 2" class="flex-1 border border-black/10 py-6 text-[10px] uppercase tracking-widest font-black hover:bg-black/5 transition-all">Back</button>
+                <button type="submit" class="flex-[2] bg-brand-black text-brand-gold py-6 text-[10px] uppercase tracking-widest font-black hover:bg-brand-gold hover:text-brand-black transition-all">Confirm Booking →</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-black pt-32 pb-12 border-t border-white/5">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-32">
+          <div class="lg:col-span-2">
+            <h2 class="text-4xl font-serif text-brand-gold mb-8">THE CHAIR</h2>
+            <p class="text-brand-cream/40 max-w-sm mb-12 font-light leading-relaxed">
+              Premium grooming for the modern gentleman. We combine traditional techniques with modern editorial style.
+            </p>
+            <div class="flex space-x-6">
+              <a href="https://instagram.com/yourprofile" target="_blank" class="text-brand-gold hover:text-white transition-colors" title="Instagram">
+                <i data-lucide="instagram"></i>
+              </a>
+              <a href="https://tiktok.com/@yourprofile" target="_blank" class="text-brand-gold hover:text-white transition-colors" title="TikTok">
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.98-.23-2.81.33-.85.51-1.44 1.43-1.58 2.41-.14 1.01.23 2.06.94 2.78.73.71 1.74 1.08 2.77 1.02 1.01-.08 1.98-.62 2.53-1.47.41-.61.62-1.35.61-2.08-.01-4.13-.02-8.26-.03-12.39z"/></svg>
+              </a>
+              <a href="https://youtube.com/yourchannel" target="_blank" class="text-brand-gold hover:text-white transition-colors" title="YouTube">
+                <i data-lucide="youtube"></i>
+              </a>
+            </div>
+          </div>
+          
+          <div>
+            <h4 class="text-[10px] uppercase tracking-[0.3em] font-black text-brand-gold mb-8">Contact</h4>
+            <div class="space-y-4 text-sm font-light text-brand-cream/60">
+              <p>123 Savile Row, London</p>
+              <p>+44 20 7123 4567</p>
+              <p>hello@thechair.com</p>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="text-[10px] uppercase tracking-[0.3em] font-black text-brand-gold mb-8">Hours</h4>
+            <div class="space-y-4 text-sm font-light text-brand-cream/60">
+              <p>Mon – Fri: 9am – 7pm</p>
+              <p>Sat: 10am – 5pm</p>
+              <p>Sun: Closed</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p class="text-[10px] uppercase tracking-widest text-brand-cream/20">© 2026 THE CHAIR BARBERSHOP. ALL RIGHTS RESERVED.</p>
+          <div class="flex space-x-8">
+            <a href="#" class="text-[10px] uppercase tracking-widest text-brand-cream/20 hover:text-brand-gold transition-colors">Privacy</a>
+            <a href="#" class="text-[10px] uppercase tracking-widest text-brand-cream/20 hover:text-brand-gold transition-colors">Terms</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Lucide icons initialization is handled in x-init
+      // But we can also run it manually if needed
+      window.addEventListener('load', () => {
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        }
+      });
+    </script>
+  </body>
+</html>
